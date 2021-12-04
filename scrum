@@ -1,0 +1,25 @@
+API : application programming interface
+allows software application to talk to each other
+
+
+Rest architecture :  which stands for representational states transfer
+    1- separate api into logical ressources
+        ex: tours users ....
+        https://www.aaa.com/User =   Endpoint
+    2- expose structured ressrouces based url
+    3- use http method   Get /tours/2 
+    post creer ou envoyer data to server 
+    put/patch : update
+    delete Delete  => crud
+    4-send with jason
+    5 statless
+
+module vs 
+express.json is a middleware between the req and th res
+middleware is a fn tha can modify the incoming data 
+Object.assign permet dobtenir un seul objet par merger 2 objet
+201 created a new ressource in the server
+
+to update data :
+1-put : the app recivies the entire updated object
+2 - patch :only the properties that should be updated 
