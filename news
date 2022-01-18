@@ -2,6 +2,9 @@ API : application programming interface
 allows software application to talk to each other
 
 
+
+// const fs =require('fs')
+// const tours= JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
 Rest architecture :  which stands for representational states transfer
     1- separate api into logical ressources
         ex: tours users ....
@@ -53,3 +56,4 @@ db.deleteMany({}) // delete all
 cluster is an instance of a data base
 
 
+A slug uses the title of an article to generate a URL.

@@ -1,9 +1,21 @@
 //entry point file  , env var / database config ...
 
 const mongoose = require('mongoose')
-const dotenv=require('dotenv');
+const dotenv=require('dotenv'); // .env
+
+//SHOULD BE ON THE TOP
+//handle unhandled exception globally clg(x) x undifined
+
+process.on('uncaughtException',err=>{
+    console.log("unhandled Exception ,shutting down",err.name,err.message)
+    console.log(err)
+    server.close(()=>{
+    process.exit(1); // we should terminate the app because instable state
+   }) 
+})
+
 dotenv.config({path :'./config.env'})
-const app= require("./app")
+const app= require("./app")  
 
 
 const DB = process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD)
@@ -17,17 +29,13 @@ useUnifiedTopology: true
 })
 
 
-
-/*
-const testTour= new Tour({
-name:"samer",
-rating :4.7,
-price:497
-})
-testTour.save().then(doc=>{console.log(doc);}).catch(err=>{
-    console.log("errrroooor ",err);
-})*/
-
-app.listen(process.env.PORT,()=>{
+const server = app.listen(process.env.PORT,()=>{
     console.log('app running on port '+ process.env.PORT);
 });
+
+//handle unhandled rejection globally wrong password bd
+process.on('unhandledRejection',err =>{//subscribe to that event 'unhandledRejection'
+    console.log('unhandled Rejection',err.name,err.message)
+    server.close(()=>{
+        process.exit(1); // 0 sucess -- 1 uncaught exception
+       }) })

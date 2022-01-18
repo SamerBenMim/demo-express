@@ -13,3 +13,4 @@ catch(e) {
     console.log(e);
 }
 
+console.log(obj);

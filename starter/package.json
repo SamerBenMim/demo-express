@@ -4,7 +4,9 @@
   "description": "express",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start:prod":"NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js"
   },
   "author": "samer ben mim",
   "license": "ISC",
@@ -19,6 +21,10 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.5.0"
+    "prettier": "^2.5.0",
+    "slugify": "^1.6.3"
+  },
+  "devDependencies": {
+    "ndb": "^1.1.5"
   }
 }
