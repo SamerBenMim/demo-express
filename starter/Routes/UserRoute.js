@@ -1,8 +1,15 @@
 const express = require('express')
+const authController = require('../Controllers/authenticationController')
 
 const router = express.Router();
 const {getAllUsers,addUser,getUser,updateUser,deleteUser} = require('../Controllers/userControllers')
 
+
+
+router.post('/signup',authController.signup)
+
+
+//for sys admin
 router
   .route('/')
   .get(getAllUsers)

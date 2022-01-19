@@ -4,13 +4,14 @@
   "description": "express",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "start:prod":"NODE_ENV=production nodemon server.js",
+    "start": " NODE_ENV=development nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js"
   },
   "author": "samer ben mim",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "eslint": "^8.3.0",
     "eslint-config-airbnb": "^19.0.1",
     "eslint-config-prettier": "^8.3.0",
@@ -22,7 +23,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.0",
-    "slugify": "^1.6.3"
+    "slugify": "^1.6.3",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "ndb": "^1.1.5"

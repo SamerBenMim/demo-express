@@ -5,8 +5,8 @@ const handleCastErrorDB = err=>{
     return new AppError(message,404);
 }
 const handleValidationErrorDB = err=>{ //patch 
-    const errors = object.values(err.errors).map(el =>el.message);
-    const message =`Invalid Input data ${errors.json(". ")}`
+    const errors = Object.values(err.errors).map(el =>el.message);
+    const message =`Invalid Input data ${errors.join(". ")}`
     return new AppError(message,400);
 }
 const handleDuplicateFieldsDB = err=>{
@@ -33,7 +33,7 @@ const sendErrorProd= (err,res)=>{
 }
 else{ // programming errors
     //1) log error
-    console.log('error !!!' , error)
+    console.log('error !!!' , err)
     //2) send generic message
 res.status(500).json( {
     status:'error',
@@ -48,12 +48,16 @@ module.exports = (err,req ,res ,next)=>{ // error handling middleware car with 4
 
     if(process.env.NODE_ENV ==='development') sendErrorDev(err,res)
     else if(process.env.NODE_ENV ==='production'){
+
         let error ={...err}
         if(err.name === 'CastError')        error = handleCastErrorDB(err) 
         // pas de format d'id fi find tour 
         if(err.code === 11000) error = handleDuplicateFieldsDB(err)// pas de format d'id fi find tour 
         if(err.name === 'ValidationError') error = handleValidationErrorDB(err)
         sendErrorProd(error,res)
+    }
+    else {
+        console.log( "mode" + process.env.NODE_ENV)
     }
     
     
