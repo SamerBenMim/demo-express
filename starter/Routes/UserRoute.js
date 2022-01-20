@@ -7,12 +7,13 @@ const {getAllUsers,addUser,getUser,updateUser,deleteUser} = require('../Controll
 
 
 router.post('/signup',authController.signup)
+router.post('/login',authController.login)
 
 
 //for sys admin
 router
   .route('/')
-  .get(getAllUsers)
+  .get(getAllUsers) 
   .post(addUser)
 
   router 

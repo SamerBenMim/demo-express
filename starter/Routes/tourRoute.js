@@ -1,6 +1,6 @@
 const express = require("express")
 const tourController = require('../Controllers/tourControllers')
-
+const {protect} = require('./../Controllers/authenticationController')
 const router = express.Router();
 
 //router.param('id',checkID) // param middleware permet de tester les param avant de passer au autre middleware
@@ -18,7 +18,7 @@ router
 router 
   .route("/")
   .post(tourController.createTour)
-  .get(tourController.getAllTours)
+  .get(protect,tourController.getAllTours)
   
 
 router 

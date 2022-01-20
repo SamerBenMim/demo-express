@@ -4,6 +4,10 @@ const handleCastErrorDB = err=>{
     const message =`Invalid ${err.path} ${err.value}`
     return new AppError(message,404);
 }
+const handleJWTError = ()=> new AppError('Invalid token. Please login again',)
+
+const handleJWTExpiredError = ()=> new AppError('Your Token has expired. Please login again',)
+
 const handleValidationErrorDB = err=>{ //patch 
     const errors = Object.values(err.errors).map(el =>el.message);
     const message =`Invalid Input data ${errors.join(". ")}`
@@ -54,6 +58,9 @@ module.exports = (err,req ,res ,next)=>{ // error handling middleware car with 4
         // pas de format d'id fi find tour 
         if(err.code === 11000) error = handleDuplicateFieldsDB(err)// pas de format d'id fi find tour 
         if(err.name === 'ValidationError') error = handleValidationErrorDB(err)
+        if(err.name === 'JsonWebTokenError') error = handleJWTError()// pas de format d'id fi find tour 
+        if(err.name === 'TokenExpiredError') error = handleJWTExpiredError()// pas de format d'id fi find tour 
+
         sendErrorProd(error,res)
     }
     else {

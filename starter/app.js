@@ -10,6 +10,7 @@ app.use(express.json())  // the incoming reqs put post serons en json
 
 app.use((req,res,next)=>{
     req.requestTime = new Date().toISOString(); //adds time to req
+    //console.log("header",req.headers);
     next()
 })
 if( !(process.env.NODE_ENV==='development') ) app.use(morgan('dev'))
