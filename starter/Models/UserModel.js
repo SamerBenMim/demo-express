@@ -40,7 +40,12 @@ const userSchema = new mongoose.Schema({
 
     passwordChangedAt: Date,
     PasswordResetToken:String,
-    PasswordResetExpires: Date
+    PasswordResetExpires: Date,
+    active:{
+        type:Boolean,
+        default:true,
+        select:false
+    }
 
 })
 userSchema.pre('save', async function(next){
@@ -72,6 +77,12 @@ userSchema.methods.changedPasswordAfter=  function(JWTTimestamp){ //we pass deco
     }
     return false
 }
+userSchema.pre(/^find/,function(next){
+//this pint to the current query
+this.find({active:{$ne: false}});
+next()
+
+})
 
 userSchema.methods.createPasswordResetToken=function(){
     const resetToken = crypto.randomBytes(32).toString('hex');//create random token
