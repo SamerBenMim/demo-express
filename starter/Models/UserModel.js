@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt =  require('bcryptjs')
+const crypto = require('crypto')
 const userSchema = new mongoose.Schema({
     name:{
         type :String,
@@ -14,6 +15,11 @@ const userSchema = new mongoose.Schema({
         validate : [validator.isEmail,['Please enter a valid email']]
     },
     photo : String,
+    role:{
+        type:String,
+        enum:['user','guide','lead-guide','admin'],
+        default: 'user',
+    },
     password:{
         type:String,
         required : [true,'please provide a password'],
@@ -32,7 +38,9 @@ const userSchema = new mongoose.Schema({
 
     },
 
-    passwordChangedAt: Date
+    passwordChangedAt: Date,
+    PasswordResetToken:String,
+    PasswordResetExpires: Date
 
 })
 userSchema.pre('save', async function(next){
@@ -40,6 +48,14 @@ userSchema.pre('save', async function(next){
         this.password  = await bcrypt.hash(this.password,12); // cpu intensive to avoid brute force ,, 10 default value
         this.passwordConfirm = undefined // we dont need to persist it to db
     }
+    next()
+})
+
+userSchema.pre('save',  function(next){
+   
+    if(this.isModified('password')&& !this.isNew){
+        this.passwordChangedAt=Date.now()-1500 // we substract  seconds to make sure tht the token is alaways created after the paswword have been changer
+    }  
     next()
 })
 
@@ -57,5 +73,18 @@ userSchema.methods.changedPasswordAfter=  function(JWTTimestamp){ //we pass deco
     return false
 }
 
+userSchema.methods.createPasswordResetToken=function(){
+    const resetToken = crypto.randomBytes(32).toString('hex');//create random token
+    this.PasswordResetToken=crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+    console.log({resetToken},this.PasswordResetToken);
+
+    this.PasswordResetExpires=Date.now()+10*60*1000; //milliseconds // we had to save this modif to be changed in thee db when we call this instance method user.save()
+    return resetToken; // we sent the unencrypted email token
+}
 const User = mongoose.model('User',userSchema) /* for the adequat collection Mongoose automatically looks for the plural, lowercased version of your model name.*///model var starts with a Capital letter // cree unmodel dont le nom est user et son model et le model userschema declare au debut
 module.exports = User;
+

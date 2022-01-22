@@ -20,6 +20,10 @@ exports.getAllUsers = catchAsync(async (req,res)=>{
 })
 })
 
+exports.updateUser=(req,res,next)=>{
+    //1) create err if user Posts password data
+    //2) update user docs
+}
 
 exports.addUser =(req,res)=>{
     res.status(500).json({
