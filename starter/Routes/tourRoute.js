@@ -2,8 +2,15 @@ const express = require("express")
 const tourController = require('../Controllers/tourControllers')
 const {protect,restrictTo} = require('./../Controllers/authenticationController')
 const router = express.Router();
-
+const authController = require('../Controllers/authenticationController')
 //router.param('id',checkID) // param middleware permet de tester les param avant de passer au autre middleware
+
+const reviewRoute  =   require('./reviewRoute')
+
+
+router.use('/:tourId/reviews',reviewRoute)
+
+
 
 router.route('/top-5-cheap') 
 .get( tourController.aliasTopTours, tourController.getAllTours) // middleware to add params to request 
@@ -28,7 +35,6 @@ router
   .delete(protect,
     restrictTo("admin"),
     tourController.deleteTour)
-
 
 
   module.exports = router;

@@ -4,12 +4,12 @@ const handleCastErrorDB = err=>{
     const message =`Invalid ${err.path} ${err.value}`
     return new AppError(message,404);
 }
-const handleJWTError = ()=> new AppError('Invalid token. Please login again',)
+const handleJWTError = ()=> new AppError('Invalid token. Please login again',400)
 
-const handleJWTExpiredError = ()=> new AppError('Your Token has expired. Please login again',)
+const handleJWTExpiredError = ()=> new AppError('Your Token has expired. Please login again',400)
 
 const handleValidationErrorDB = err=>{ //patch 
-    const errors = Object.values(err.errors).map(el =>el.message);
+    const errors = Object.values(err.errors).map(el =>el.message);s
     const message =`Invalid Input data ${errors.join(". ")}`
     return new AppError(message,400);
 }

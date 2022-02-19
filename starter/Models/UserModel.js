@@ -48,7 +48,9 @@ const userSchema = new mongoose.Schema({
     }
 
 })
+
 userSchema.pre('save', async function(next){
+    console.log("pre save midlleware ************");
     if(this.isModified('password')){    
         this.password  = await bcrypt.hash(this.password,12); // cpu intensive to avoid brute force ,, 10 default value
         this.passwordConfirm = undefined // we dont need to persist it to db
@@ -57,7 +59,8 @@ userSchema.pre('save', async function(next){
 })
 
 userSchema.pre('save',  function(next){
-   
+    
+
     if(this.isModified('password')&& !this.isNew){
         this.passwordChangedAt=Date.now()-1500 // we substract  seconds to make sure tht the token is alaways created after the paswword have been changer
     }  
@@ -86,7 +89,7 @@ next()
 
 userSchema.methods.createPasswordResetToken=function(){
     const resetToken = crypto.randomBytes(32).toString('hex');//create random token
-    this.PasswordResetToken=crypto
+    this.PasswordResetToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');

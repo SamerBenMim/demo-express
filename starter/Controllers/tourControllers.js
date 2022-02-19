@@ -62,7 +62,10 @@ exports.getAllTours = async (req,res)=>{
 
 exports.getTour = async(req,res)=>{ // : pour parametre ? pour optional param
     try{
-        const tour = await Tour.findById(req.params.id)
+
+
+        //here there is a big PROBLEM !! we populate the reviews which populate the user and the tour which populate ..... so we had to turn off population in that 
+        const tour = await Tour.findById(req.params.id).populate('reviews') //name of the field we want to populate
         //const tour = await Tour.findOne({_id : req.params.id})
        if(!tour) {
         res.status(404).json({

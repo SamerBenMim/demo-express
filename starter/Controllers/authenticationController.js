@@ -28,7 +28,7 @@ const createSendToken = (user,statusCode,res)=>{
 
 
 exports.signup = catchAsync(async(req,res ,next)=>{
-
+console.log(req.body)
     let newUser
     if(req.role){
      newUser = await User.create({
@@ -71,11 +71,7 @@ exports.login= catchAsync(async (req,res,next)=>{
     //4) send token to client
     createSendToken(user,200,res)
  
-    const token=generateToken(user._id);
-    res.status(200).json({
-        status:'success',
-        token
-    })
+  
 
 })
 
@@ -185,7 +181,7 @@ exports.resetPassword = catchAsync( async(req,res,next)=>{
 
 })
 
-exports.updatePassword = catchAsync(async(req,res,next)=>{
+exports.updatePassword = (async(req,res,next)=>{
     //1) get the user from collection
     user=await User.findById(req.user.id).select('+password');   
     //2)check pass

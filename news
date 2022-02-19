@@ -71,3 +71,6 @@ compare test signature & signature sent by the client
 we send token in the header
  to send a token we alaways use a header called  Authorization (key) and the value "Bearer token"
 
+
+
+

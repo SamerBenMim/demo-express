@@ -1,6 +1,5 @@
 const express = require('express')
 const authController = require('../Controllers/authenticationController')
-
 const router = express.Router();
 const {getAllUsers,addUser,getUser,updateUser,deleteUser,deleteMe,updateMe} = require('../Controllers/userControllers')
 
@@ -29,6 +28,9 @@ router
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser)
+
+
+
 
 module.exports = router ;
 
